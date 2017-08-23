@@ -1,0 +1,11 @@
+.*
+!.gitignore
+db.sqlite3
+*.pyc
+__pycache__
+*~
+*.swp
+*.swo
+*.env
+.DS_Store
+ig_clone-ENV/*
