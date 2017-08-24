@@ -11,7 +11,7 @@ def home(request):
     file_it = FileIt.objects.all()
     return render(request, 'feed/home.html', { 'file_it': file_it })
 
-# @login_required
+@login_required
 def upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
@@ -24,6 +24,7 @@ def upload(request):
     
     return render(request, 'feed/upload.html')
 
+@login_required
 def model_form_upload(request):
     if request.method == 'POST':
         form = FileItForm(request.POST, request.FILES)
