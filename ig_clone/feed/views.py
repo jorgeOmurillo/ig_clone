@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from feed.models import FileIt
-from feed.forms import FileItForm
+from imagekit.models import ProcessedImageField
+from feed.models import UserID, FileIt
+from feed.forms import FileItForm, UserNewForm
 
 # Create your views here.
 def home(request):
+    if not request.user.is_authenticated():
+        redirect('login')
     file_it = FileIt.objects.all()
     return render(request, 'feed/home.html', { 'file_it': file_it })
 
@@ -24,16 +30,60 @@ def upload(request):
     
     return render(request, 'feed/upload.html')
 
-@login_required
-def model_form_upload(request):
-    if request.method == 'POST':
-        form = FileItForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = FileItForm()
+# @login_required
+# def model_form_upload(request):
+    # if request.method == 'POST':
+        # form = FileItForm(request.POST, request.FILES)
+        # if form.is_valid():
+            # form.save()
+            # return redirect('home')
+    # else:
+        # form = FileItForm()
     
-    return render(request, 'feed/model_form_upload.html', {
+    # return render(request, 'feed/model_form_upload.html', {
+        # 'form': form
+    # })
+
+def login_user(request):
+    form = AuthenticationForm()
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+
+    return render(request, 'feed/login.html', {
         'form': form
     })
+
+def signup(request):
+    form = UserNewForm
+
+    if request.method == 'POST':
+        form = UserNewForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            user = User.objects.get(username=request.POST['username'])
+            profile = UserID(user=user)
+            profile.save()
+
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password'])
+            login(request, new_user)
+            return redirect('home')
+
+    return render(request, 'feed/signup.html', {
+        'form': form
+    })
+
+def signup_success(request):
+    return render(request, 'feed/signup_success.html')
+
+def signout(request):
+    logout(request)
+    return redirect('home')
