@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static custom_tags %}
+{% load static %}
 
 {% block body_class_override %}white{% endblock %}
 {% block content %}
@@ -10,12 +10,10 @@
         {% csrf_token %}
         <div class="form-group">
           {{ form.username.label }}
-          {{ form.username|addClass:"form-control" }}
           {{ form.username.errors }}
         </div>
         <div class="form-group">
           {{ form.password.label }}
-          {{ form.password|addClass:"form-control" }}
           {{ form.password.errors }}
         </div>
 
