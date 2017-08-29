@@ -8,14 +8,15 @@
   <div class="col-xs-12">
     <form action="{% url 'login' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group">
-          {{ form.username.label }}
-          {{ form.username.errors }}
-        </div>
-        <div class="form-group">
-          {{ form.password.label }}
-          {{ form.password.errors }}
-        </div>
+        {% for field in form  %}
+        <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+        {% endfor %}
+        </p>
+        {% endfor %}
 
         <button class="btn btn-default">Login</button>
         <div class="text-center help-text">

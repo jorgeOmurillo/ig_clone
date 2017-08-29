@@ -12,7 +12,7 @@ class UserNewForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password")
+        fields = ("username", "email", "password1", "password2")
 
     def save(self, commit=True):
         user = super(UserNewForm, self).save(commit=False)
@@ -26,3 +26,8 @@ class FileItForm(forms.ModelForm):
     class Meta:
         model = FileIt
         fields = ('description', 'file_it', )
+
+class UserProfilePic(ModelForm):
+    class Meta:
+        model = UserID
+        fields = ['pic_profile', 'description']

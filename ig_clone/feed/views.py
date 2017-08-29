@@ -7,28 +7,26 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from imagekit.models import ProcessedImageField
-from feed.models import UserID, FileIt
-from feed.forms import FileItForm, UserNewForm
+from .models import UserID, FileIt
+from .forms import FileItForm, UserNewForm
 
 # Create your views here.
-def home(request):
-    if not request.user.is_authenticated():
-        redirect('login')
-    file_it = FileIt.objects.all()
-    return render(request, 'feed/home.html', { 'file_it': file_it })
-
 @login_required
-def upload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'feed/upload.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
+def home(request):
+    return render(request, 'feed/home.html')
+
+# @login_required
+# def upload(request):
+    # if request.method == 'POST' and request.FILES['myfile']:
+        # myfile = request.FILES['myfile']
+        # fs = FileSystemStorage()
+        # filename = fs.save(myfile.name, myfile)
+        # uploaded_file_url = fs.url(filename)
+        # return render(request, 'feed/upload.html', {
+            # 'uploaded_file_url': uploaded_file_url
+        # })
     
-    return render(request, 'feed/upload.html')
+    # return render(request, 'feed/upload.html')
 
 # @login_required
 # def model_form_upload(request):
@@ -49,7 +47,7 @@ def login_user(request):
 
     if request.method == 'POST':
         username = request.POST['username']
-        password = request.POST['password']
+        password = request.POST['password1']
         user = authenticate(username=username, password=password)
 
         if user is not None:
@@ -73,7 +71,7 @@ def signup(request):
             profile.save()
 
             new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password'])
+                                    password=form.cleaned_data['password1'])
             login(request, new_user)
             return redirect('home')
 
@@ -87,3 +85,17 @@ def signup_success(request):
 def signout(request):
     logout(request)
     return redirect('home')
+
+def profile(request, username):
+    user = User.objects.get(username=username)
+    if not user:
+        return redirect('home')
+
+    profile = UserProfile.objects.get(user=user)
+    context = {
+            'username': username,
+            'user': user,
+            'profile': profile
+    }
+
+    return render(request, 'feed/profile.html', context)

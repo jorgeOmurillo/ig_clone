@@ -9,24 +9,15 @@
     <form action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
-          {{ form.username.label }}
-          {{ form.username|addClass:"form-control" }}
-          {{ form.username.errors }}
-        </div>
-        <div class="form-group">
-          {{ form.email.label }}
-          {{ form.email|addClass:"form-control" }}
-          {{ form.email.errors }}
-        </div>
-        <div class="form-group">
-          {{ form.password1.label }}
-          {{ form.password1|addClass:"form-control" }}
-          {{ form.password1.errors }}
-        </div>
-        <div class="form-group">
-          {{ form.password2.label }}
-          {{ form.password2|addClass:"form-control" }}
-          {{ form.password2.errors }}
+            {% for field in form %}
+            <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+            {% endfor %}
+            </p>
+            {% endfor %}
         </div>
 
         <button class="btn btn-default">Register</button>
