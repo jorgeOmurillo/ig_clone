@@ -11,7 +11,6 @@ from .models import UserID, FileIt
 from .forms import FileItForm, UserNewForm
 
 # Create your views here.
-@login_required
 def home(request):
     return render(request, 'feed/home.html')
 

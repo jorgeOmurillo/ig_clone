@@ -3,6 +3,21 @@
 {% load static %}
 
 {% block content %}
-<p>Welcome, {{ user.username }} </p>
+{% if request.user.is_authenticated %}
+<li>
+    <a href="{% url 'home' %}">
+        <i class="fa fa-home {% if request.resolver_match.url_name == 'home' %}active{% endif %}" aria-hidden="true"></i>
+    </a>
+</li>
+<!--
+    Using profile page logout for now
+    <li><a href="{% url 'signout' %}">Signout</a></li>
+-->
+{% else %}
+<li><a href="{% url 'login' %}">Login</a></li>
+<li><a href="{% url 'signup' %}">Signup</a></li>
+{% endif %}
+</ul>
+
 
 {% endblock %}
