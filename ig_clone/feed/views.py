@@ -12,6 +12,7 @@ from .forms import FileItForm, UserNewForm
 
 # Create your views here.
 def home(request):
+
     return render(request, 'feed/home.html')
 
 # @login_required
@@ -90,7 +91,7 @@ def profile(request, username):
     if not user:
         return redirect('home')
 
-    profile = UserProfile.objects.get(user=user)
+    profile = UserID.objects.get(user=user)
     context = {
             'username': username,
             'user': user,
