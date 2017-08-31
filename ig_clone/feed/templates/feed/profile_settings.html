@@ -3,6 +3,14 @@
 
 {% block body_class_override %}white{% endblock %}
 {% block content %}
+{% if user.userid.pic_profile %}
+<img class="profile_picture" src="{{ user.userid.pic_profile }}">
+{% else %}
+<img class="profile_picture" src="{{% static 'images/place_holder.jpg' %}">
+{% endif %}
 
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    :
 
 {% endblock %}

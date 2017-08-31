@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
-{% if request.user.is_authenticated %} <li>
+{% if request.user.is_authenticated %}
     Welcome, {{ request.user }}.
-</li>
+<li><a href="{% url 'home' %}">My Feed</a></li>
 {% if profile.pic_profile %}
-          <img class="picture-circle" src="{{ profile.pic_profile.url }}">
-        {% else %}
-          <img class="picture-circle" src="{% static 'images/place_holder.jpg' %}">
-        {% endif %}
-    <li><a href="{% url 'signout' %}">Signout</a></li>
+<img class="picture-profile" src="{{ profile.pic_profile.url }}">
+{% else %}
+<img class="picture-profile" src="{% static 'images/place_holder.jpg' %}">
+{% endif %}
+<li><a href="{% url 'signout' %}">Signout</a></li>
 {% else %}
 <li><a href="{% url 'login' %}">Login</a></li>
 <li><a href="{% url 'signup' %}">Signup</a></li>
