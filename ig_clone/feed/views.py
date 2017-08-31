@@ -5,42 +5,16 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 
 from imagekit.models import ProcessedImageField
-from .models import UserID, FileIt
-from .forms import FileItForm, UserNewForm
+from .models import UserID
+from .forms import UserNewForm, UserProfilePic
 
 # Create your views here.
 def home(request):
 
     return render(request, 'feed/home.html')
-
-# @login_required
-# def upload(request):
-    # if request.method == 'POST' and request.FILES['myfile']:
-        # myfile = request.FILES['myfile']
-        # fs = FileSystemStorage()
-        # filename = fs.save(myfile.name, myfile)
-        # uploaded_file_url = fs.url(filename)
-        # return render(request, 'feed/upload.html', {
-            # 'uploaded_file_url': uploaded_file_url
-        # })
-    
-    # return render(request, 'feed/upload.html')
-
-# @login_required
-# def model_form_upload(request):
-    # if request.method == 'POST':
-        # form = FileItForm(request.POST, request.FILES)
-        # if form.is_valid():
-            # form.save()
-            # return redirect('home')
-    # else:
-        # form = FileItForm()
-    
-    # return render(request, 'feed/model_form_upload.html', {
-        # 'form': form
-    # })
 
 def login_user(request):
     form = AuthenticationForm()
@@ -99,3 +73,30 @@ def profile(request, username):
     }
 
     return render(request, 'feed/profile.html', context)
+
+def profile_settings(request, username):
+    user = User.objects.get(username=username)
+
+    if request.user != user:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        print(request.POST)
+
+        form = UserProfilePic(request.POST, instance=user.userid, files=request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('profile', kwargs={'username': user.username}))
+    else:
+        form = UserProfilePic(instance=user.userid)
+
+    context = {
+            'user': user,
+            'form': form,
+    }
+
+    return render(request, 'feed/profile_settings.html', context)
+
+# def post(request, username):
+    # user = User.objects.get(username=username)

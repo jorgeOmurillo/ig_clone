@@ -3,10 +3,12 @@
 
 {% block content %}
 {% if request.user.is_authenticated %}
-    Welcome, {{ request.user }}.
+Welcome, {{ request.user }}.<br>
+<li><a href="{% url 'profile_settings' request.user %}">Edit Profile</a></li>
 <li><a href="{% url 'home' %}">My Feed</a></li>
 {% if profile.pic_profile %}
 <img class="picture-profile" src="{{ profile.pic_profile.url }}">
+<p>{{ profile.description }}</p>
 {% else %}
 <img class="picture-profile" src="{% static 'images/place_holder.jpg' %}">
 {% endif %}

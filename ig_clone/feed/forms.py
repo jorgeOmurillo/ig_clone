@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from imagekit.forms import ProcessedImageField
 
-from feed.models import UserID, FileIt
+from .models import UserID
 
 class UserNewForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -21,11 +21,6 @@ class UserNewForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-class FileItForm(forms.ModelForm):
-    class Meta:
-        model = FileIt
-        fields = ('description', 'file_it', )
 
 class UserProfilePic(ModelForm):
     class Meta:

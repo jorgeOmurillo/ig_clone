@@ -20,8 +20,10 @@ class UserID(models.Model):
         return self.user.username
 
 
-class FileIt(models.Model):
-    users = models.ForeignKey(UserID, null=True, blank=True)
+class PostIt(models.Model):
+    user = models.ForeignKey(UserID, null=True, blank=True)
     description = models.CharField(max_length=255, blank=True)
-    file_it = models.FileField(upload_to='images/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    image = ProcessedImageField(upload_to='posts/',
+                                        format='JPEG',
+                                        options={ 'quality': 100 })
+    uploaded_on = models.DateTimeField(auto_now_add=True)

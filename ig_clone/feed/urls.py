@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^signout/$', views.signout, name='signout'),
     url(r'^signup_success/$', views.signup_success, name='signup_success'),
     url(r'^profile/(?P<username>[-_\w.]+)/$', views.profile, name='profile'),
+    url(r'^profile/(?P<username>[-_\w.]+)/edit/$', views.profile_settings, name='profile_settings'),
 ]
