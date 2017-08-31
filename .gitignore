@@ -8,4 +8,5 @@ __pycache__
 *.swo
 *.env
 .DS_Store
+media/*
 ig_clone-ENV/*
