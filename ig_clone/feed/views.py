@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -8,8 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 
 from imagekit.models import ProcessedImageField
-from .models import UserID
-from .forms import UserNewForm, UserProfilePic
+from .models import UserID, PostIt
+from .forms import UserNewForm, UserProfilePic, PostPicture
 
 # Create your views here.
 def home(request):
@@ -98,5 +100,23 @@ def profile_settings(request, username):
 
     return render(request, 'feed/profile_settings.html', context)
 
-# def post(request, username):
-    # user = User.objects.get(username=username)
+def post(request):
+    if request.method == 'POST':
+        form = PostPicture(data=request.POST, files=request.FILES)
+
+        if form.is_valid():
+            post = PostIt(user=request.user.userprofile,
+                            description=request.POST['title'],
+                            image=request.FILES['image'],
+                            uploaded_on=datetime.datetime.now())
+
+            post.save()
+            return redirect(reverse('home'))
+    else:
+        form = PostPicture(instance=user.userid)
+
+    context = {
+            'form': form,
+    }
+
+    return render(request, 'feed/post_picture.html', context)
