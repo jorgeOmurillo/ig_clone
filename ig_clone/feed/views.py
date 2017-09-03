@@ -111,7 +111,7 @@ def post_picture(request):
                             uploaded_on=datetime.datetime.now())
 
             post.save()
-            return redirect(reverse('home'))
+            return redirect(reverse('profile', kwargs={ 'username': request.user.username }))
     else:
         form = PostPicture()
 
