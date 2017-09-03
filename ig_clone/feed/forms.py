@@ -30,4 +30,4 @@ class UserProfilePic(ModelForm):
 class PostPicture(ModelForm):
     class Meta:
         model = PostIt
-        fields = ['title', 'image']
+        fields = ['description', 'image']

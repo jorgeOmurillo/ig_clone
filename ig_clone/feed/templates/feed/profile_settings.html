@@ -4,7 +4,7 @@
 {% block body_class_override %}white{% endblock %}
 {% block content %}
 {% if user.userid.pic_profile %}
-<img class="profile_picture" src="{{ user.userid.pic_profile }}">
+<img class="profile_picture" src="{{ user.userid.pic_profile.url }}">
 {% else %}
 <img class="profile_picture" src="{{% static 'images/place_holder.jpg' %}">
 {% endif %}
@@ -21,5 +21,6 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
     </form>
+    <li><a href="{% url 'home' %}">Go Home</a></li>
 
 {% endblock %}

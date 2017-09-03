@@ -100,20 +100,20 @@ def profile_settings(request, username):
 
     return render(request, 'feed/profile_settings.html', context)
 
-def post(request):
+def post_picture(request):
     if request.method == 'POST':
         form = PostPicture(data=request.POST, files=request.FILES)
 
         if form.is_valid():
-            post = PostIt(user=request.user.userprofile,
-                            description=request.POST['title'],
+            post = PostIt(user=request.user.userid,
+                            description=request.POST['description'],
                             image=request.FILES['image'],
                             uploaded_on=datetime.datetime.now())
 
             post.save()
             return redirect(reverse('home'))
     else:
-        form = PostPicture(instance=user.userid)
+        form = PostPicture()
 
     context = {
             'form': form,
