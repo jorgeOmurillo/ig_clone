@@ -10,6 +10,11 @@ Welcome, {{ request.user }}.<br>
 <img class="picture-profile" src="{{ profile.pic_profile.url }}">
 <p>{{ profile.description }}</p>
 <li><a href="{% url 'post_picture' %}">Post Picture</a></li>
+
+{% for post in posts %}
+<img class="picture-profile" src="{{ post.image.url }}">
+{% endfor %}
+
 {% else %}
 <img class="picture-profile" src="{% static 'images/place_holder.jpg' %}">
 {% endif %}

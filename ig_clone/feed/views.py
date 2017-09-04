@@ -15,6 +15,8 @@ from .forms import UserNewForm, UserProfilePic, PostPicture
 
 # Create your views here.
 def home(request):
+    if not request.user.is_authenticated():
+        return redirect('login')
 
     return render(request, 'feed/home.html')
 
@@ -67,11 +69,13 @@ def profile(request, username):
     if not user:
         return redirect('home')
 
+    posts = PostIt.objects.filter(user=request.user.userid).order_by('-uploaded_on')
     profile = UserID.objects.get(user=user)
     context = {
             'username': username,
             'user': user,
-            'profile': profile
+            'profile': profile,
+            'posts': posts,
     }
 
     return render(request, 'feed/profile.html', context)
