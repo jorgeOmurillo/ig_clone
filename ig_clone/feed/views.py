@@ -15,8 +15,8 @@ from .forms import UserNewForm, UserProfilePic, PostPicture
 
 # Create your views here.
 def home(request):
-    if not request.user.is_authenticated():
-        return redirect('login')
+    # if not request.user.is_authenticated():
+        # return redirect('login')
 
     return render(request, 'feed/home.html')
 

@@ -2,27 +2,36 @@
 {% load static %}
 
 {% block content %}
-{% if request.user.is_authenticated %}
-Welcome, {{ request.user }}.<br>
-<li><a href="{% url 'profile_settings' request.user %}">Edit Profile</a></li>
-<li><a href="{% url 'home' %}">My Feed</a></li>
-{% if profile.pic_profile %}
-<img class="picture-profile" src="{{ profile.pic_profile.url }}">
-<p>{{ profile.description }}</p>
-<li><a href="{% url 'post_picture' %}">Post Picture</a></li>
+    {% if request.user.is_authenticated %}
+        Welcome, {{ request.user }}.<br>
+        <li><a href="{% url 'profile_settings' request.user %}">Edit Profile</a></li>
+        <li><a href="{% url 'home' %}">My Feed</a></li>
+        {% if profile.pic_profile %}
+            <img class="picture-profile" src="{{ profile.pic_profile.url }}">
+            <p>{{ profile.description }}</p>
+            <li><a href="{% url 'post_picture' %}">Post Picture</a></li>
 
-{% for post in posts %}
-<img class="picture-profile" src="{{ post.image.url }}">
-{% endfor %}
+            <div class="container">
+                <div class="row">
+                    {% for post in posts %}
+                    <div class="col-lg-4 cl-sm-6">
+                        <div class="thumbnail">
+                                <img src="{{ post.image.url }}">
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
 
-{% else %}
-<img class="picture-profile" src="{% static 'images/place_holder.jpg' %}">
-{% endif %}
-<li><a href="{% url 'signout' %}">Signout</a></li>
-{% else %}
-<li><a href="{% url 'login' %}">Login</a></li>
-<li><a href="{% url 'signup' %}">Signup</a></li>
-{% endif %}
-</ul>
+        {% else %}
+            <img class="picture-profile" src="{% static 'images/place_holder.jpg' %}">
+        {% endif %}
 
-{% endblock %}
+            <li><a href="{% url 'signout' %}">Signout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Signup</a></li>
+        {% endif %}
+        </ul>
+
+    {% endblock %}
