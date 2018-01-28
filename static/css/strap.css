@@ -1,0 +1,18 @@
+h1 {
+    color: #FCA205;
+}
+
+body {
+    padding-top: 70px;
+	padding-left: 15px;
+}
+
+.picture-profile {
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+}
+
+.thumbnail {
+    border: 0;
+}
