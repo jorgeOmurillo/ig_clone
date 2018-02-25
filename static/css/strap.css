@@ -16,3 +16,7 @@ body {
 .thumbnail {
     border: 0;
 }
+
+.form-group {
+        margin-bottom: 50px;
+}
