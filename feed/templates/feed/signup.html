@@ -4,27 +4,34 @@
 
 {% block body_class_override %}white{% endblock %}
 {% block content %}
-<div class="row auth-form">
-  <div class="col-xs-12">
-    <form action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            {% for field in form %}
-            <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% for error in field.errors %}
-            <p style="color: red">{{ error }}</p>
-            {% endfor %}
-            </p>
-            {% endfor %}
-        </div>
+    <div class="container">
+        <div class="row centered-form">
+            <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please sign up for InstaClone!</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
+                            {% for field in form %}
+                                <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                                </p>
+                            {% endfor %}
+                    </div>
 
-        <button class="btn btn-default">Register</button>
-        <div class="text-center help-text">
-          Already have an account? <a href="{% url 'login' %}">Login</a>
+                    <button class="btn btn-info btn-block">Register</button>
+                    <div class="text-center help-text">
+                        Already have an account? <a href="{% url 'login' %}">Login</a>
+                    </div>
+
+                        </form>
+                </div>
+            </div>
         </div>
-    </form>
-  </div>
-</div>
+    </div>
 {% endblock %}
