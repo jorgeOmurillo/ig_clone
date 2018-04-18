@@ -124,3 +124,15 @@ def post_picture(request):
     }
 
     return render(request, 'feed/post_picture.html', context)
+
+def following(request, username):
+    user = User.objects.get(username=username)
+    user_profile = UserID.objects.get(user=user)
+    profiles = user_profile.following.all
+
+    context = {
+        'header': 'Following',
+        'profiles': profiles,
+    }
+
+    return render(request, 'feed/follow_list.html', context)
