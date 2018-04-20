@@ -15,8 +15,12 @@ from .forms import UserNewForm, UserProfilePic, PostPicture
 
 # Create your views here.
 def home(request):
-    # if not request.user.is_authenticated():
-        # return redirect('login')
+    if not request.user.is_authenticated():
+        return redirect('login')
+
+    users_followed = request.user.userid.following.all()
+    posts = PostIt.objects.filter(
+            user__in=users_followed).order_by('-posted_on')
 
     return render(request, 'feed/home.html')
 
@@ -80,6 +84,7 @@ def profile(request, username):
 
     return render(request, 'feed/profile.html', context)
 
+@login_required
 def profile_settings(request, username):
     user = User.objects.get(username=username)
 
@@ -125,6 +130,18 @@ def post_picture(request):
 
     return render(request, 'feed/post_picture.html', context)
 
+def followers(request, username):
+    user = User.objects.get(username=username)
+    user_profile = UserID.objects.get(user=user)
+    profiles = user_profile.followers.all
+
+    context = {
+        'header': 'Followers',
+        'profiles': profiles,
+    }
+
+    return render(request, 'feed/follow_list.html', context)
+
 def following(request, username):
     user = User.objects.get(username=username)
     user_profile = UserID.objects.get(user=user)
@@ -136,3 +153,86 @@ def following(request, username):
     }
 
     return render(request, 'feed/follow_list.html', context)
+
+def likes(request, pk):
+    post = PostIt.objects.get(pk=pk)
+    profiles = Like.objects.filter(post=post)
+
+    context = {
+        'header': 'Likes',
+        'profiles': profiles
+    }
+
+    return render(request, 'feed/follow_list.html', context)
+
+@login_required
+def add_like(request):
+    post_pk = request.POST.get('post_pk')
+    post = PostIt.objects.get(pk=post_pk)
+    
+    try:
+        like = Like(post=post, user=request.user)
+        like.save()
+    except Exception as e:
+        like = Like.objects.get(post=post, user=request.user)
+        like.delete()
+        result = 0
+
+    return {
+        'result': result,
+        'post_pk': post_pk
+    }
+
+def post(request, pk):
+    post = PostIt.objects.get(pk=pk)
+
+    try:
+        like = Like.objects.get(post=post, user=request.user)
+        liked = 1
+    except:
+        like = None
+        liked = 0
+
+    context = {
+        'post': post,
+        'liked': liked
+    }
+
+    return render(request, 'feed/post.html', context)
+
+def explore(request):
+    random_posts = PostIt.objects.all().order_by('?')[:40]
+
+    context = {
+        'posts': random_posts
+    }
+
+    return render(request, 'feed/explore.html', context)
+
+@login_required
+def follow_toggle(request):
+    user_profile = UserID.objects.get(user=request.user)
+    follow_profile_pk = request.POST.get('follow_profile_pk')
+    follow_profile = UserID.objects.get(pk=follow_profile_pk)
+
+    try:
+        if user_profile != follow_profile:
+            if request.POST.get('type') == 'follow':
+                user_profile.following.add(follow_profile)
+                follow_profile.followers.add(user_profile)
+            elif request.POST.get('type') == 'unfollow':
+                user_profile.following.remove(follow_profile)
+            user_profile.save()
+            result = 1
+        else:
+            result = 0
+
+    except Exception as e:
+        print(e)
+        result = 0
+
+    return {
+        'result': result,
+        'type': request.POST.get('type'),
+        'follow_profile_pk': follow_profile_pk
+    }
