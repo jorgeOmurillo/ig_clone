@@ -63,3 +63,32 @@ body {
 
 #explore > .col-xs-4, #explore > .col-sm-3 {
   padding: 0; }
+
+.desktop-block {
+  display: block; }
+  @media screen and (max-width: 724px) {
+    .desktop-block {
+      display: none; } }
+
+.mobile-block {
+  display: none; }
+  @media screen and (max-width: 724px) {
+    .mobile-block {
+      display: block; } }
+
+.stats {
+  list-style: none;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0; }
+  .stats > * {
+    font-size: 17px;
+    color: #262626; }
+  .stats .stats__count {
+    display: inline-block;
+    margin-right: 40px; }
+    .stats .stats__count span {
+      font-weight: bold; }
+  .stats a:hover {
+    color: #262626;
+    cursor: pointer; }

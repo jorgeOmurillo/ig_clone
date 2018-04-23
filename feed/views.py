@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 
 from imagekit.models import ProcessedImageField
-from .models import UserID, PostIt
+from .models import UserID, PostIt, Comment, Like
 from .forms import UserNewForm, UserProfilePic, PostPicture
 
 # Create your views here.
@@ -20,9 +20,11 @@ def home(request):
 
     users_followed = request.user.userid.following.all()
     posts = PostIt.objects.filter(
-            user__in=users_followed).order_by('-posted_on')
+            user__in=users_followed).order_by('-uploaded_on')
 
-    return render(request, 'feed/home.html')
+    return render(request, 'feed/home.html', {
+        'posts': posts,
+    })
 
 def login_user(request):
     form = AuthenticationForm()

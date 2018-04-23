@@ -27,8 +27,15 @@
                                     <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i><a href="{% url 'profile_settings' request.user %}"> Edit Profile</a></button><br>
                                 </span>
                                 <span class="text-muted"><a href="{% url 'home' %}">My Feed</a></span></br>
-                                    <p><strong>{{ request.user }} </strong> {{ profile.description }}</p>
-                                    <span class="text-muted"><a href="{% url 'post_picture' %}">Post Picture</a></span><br>
+                                    <div class="desktop-block">
+                                        <p><strong>{{ request.user }} </strong> {{ profile.description }}</p>
+                                        <span class="text-muted"><a href="{% url 'post_picture' %}">Post Picture</a></span><br>
+                                        <ul class="stats">
+                                            <li class="stats__count"><span>{{ profile.postit_set.count }}</span> Posts</li>
+                                            <a href="{% url 'followers' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_followers }}</span> Followers</li></a>
+                                            <a href="{% url 'following' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_following }}</span> Following</li></a>
+                                        </ul>
+                                    </div>
                             </div>
                         </div>
                     </div>
