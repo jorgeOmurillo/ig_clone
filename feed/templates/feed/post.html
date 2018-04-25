@@ -3,7 +3,19 @@
 
 {% block content %}
 
-<div class="row single-post">
+<div class="row">
+    <div class="single-post-card view-update {{ post.pk }}">
+        <div class="header">
+            <a href="{% url 'profile' post.user_profile.user.username %}">
+                {% if post.user_profile.profile_pic %}
+                <img class="picture-circle--medium" src="{{ post.user_profile.profile_pic.url }}">
+                {% else %}
+                <img class="picture-circle--medium" src="{% static 'images/profile_placeholder.jpg' %}">
+                {% endif %}
+                {{ post.user_profile.user.username }}
+            </a>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
