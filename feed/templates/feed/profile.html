@@ -10,7 +10,7 @@
                 <div class="row">
                     {% if request.user == user %}
                     <div class="col-md-12 lead">
-                        Welcome, <strong>{{ request.user }}.</strong><br>
+                        Welcome, <strong>{{ user }}.</strong><br>
                         <hr>
                     </div>
                     {% endif %}
@@ -27,12 +27,12 @@
                         <div class="col-md-6">
                             {% if request.user == user %}
                             <span class="text-muted">
-                                <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i><a href="{% url 'profile_settings' request.user %}"> Edit Profile</a></button><br>
+                                <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i><a href="{% url 'profile_settings' user.username %}"> Edit Profile</a></button><br>
                             </span>
                             {% endif %}
                             <span class="text-muted"><a href="{% url 'home' %}">My Feed</a></span></br>
                                 <div class="desktop-block">
-                                    <p><strong>{{ request.user }} </strong> {{ profile.description }}</p>
+                                    <p>{{ profile.description }}</p>
                                     <span class="text-muted"><a href="{% url 'post_picture' %}">Post Picture</a></span><br>
                                     <ul class="stats">
                                         <li class="stats__count"><span>{{ profile.postit_set.count }}</span> Posts</li>
