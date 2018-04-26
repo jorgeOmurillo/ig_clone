@@ -26,13 +26,7 @@
                     {% endif %}
                 </div>
                 <div class="collapse navbar-collapse" id="bs-nav-demo">
-                    <ul class="nav navbar-nav">
-                        <!--<li><a href="#">About</a></li>-->
-                        <!--<li><a href="#">Contact</a></li>-->
-                    </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <!--<li><a href="#">Sign</a></li>-->
-                        <!--<li><a href="#">Login</a></li>-->
                         {% if request.user.is_authenticated %}
                         <li><a href="{% url 'profile' request.user %}">My Profile</a></li>
                         <li><a href="{% url 'signout' %}">Signout</a></li>

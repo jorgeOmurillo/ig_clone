@@ -8,12 +8,10 @@
             <div class="panel-body">
                 {% if request.user.is_authenticated %}
                 <div class="row">
-                    {% if request.user == user %}
                     <div class="col-md-12 lead">
-                        Welcome, <strong>{{ user }}.</strong><br>
+                        <strong>{{ user.username }}</strong><br>
                         <hr>
                     </div>
-                    {% endif %}
                 </div>
                 <div class="row">
                     <div class="col-md-4 text-center">
