@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static custom_tags %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-body">
-                {% if request.user.is_authenticated %}
                 <div class="row">
                     <div class="col-md-12 lead">
                         <strong>{{ user.username }}</strong><br>
@@ -24,14 +23,24 @@
                     <div class="row form-group">        
                         <div class="col-md-6">
                             {% if request.user == user %}
-                            <span class="text-muted">
-                                <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i><a href="{% url 'profile_settings' user.username %}"> Edit Profile</a></button><br>
-                            </span>
+                                <span class="text-muted">
+                                    <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i><a href="{% url 'profile_settings' user.username %}"> Edit Profile</a></button><br>
+                                </span>
+                            {% elif request.user.is_authenticated %}
+                                <div class="follow-toggle__container">
+                                    {% is_following request.user.userid profile as following %}
+                                    <button class="btn btn-primary {% if not following %}follow-user{% else %}unfollow-user{% endif %}" id="{{ profile.pk }}">
+                                        {% if not following %}
+                                            Follow
+                                        {% else %}
+                                            Following
+                                        {% endif %}
+                                    </button>
+                                </div>
                             {% endif %}
-                            <span class="text-muted"><a href="{% url 'home' %}">My Feed</a></span></br>
-                                <div class="desktop-block">
-                                    <p>{{ profile.description }}</p>
-                                    <span class="text-muted"><a href="{% url 'post_picture' %}">Post Picture</a></span><br>
+                                    <div class="desktop-block">
+                                        <p>{{ profile.description }}</p>
+                                        <span class="text-muted"><a href="{% url 'post_picture' %}">Post Picture</a></span><br>
                                     <ul class="stats">
                                         <li class="stats__count"><span>{{ profile.postit_set.count }}</span> Posts</li>
                                         <a href="{% url 'followers' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_followers }}</span> Followers</li></a>
@@ -41,7 +50,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
             </div>
         </div>
     </div>

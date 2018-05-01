@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^post/(?P<pk>\d+)/$', views.post, name='post'),
     url(r'^post/$', views.post_picture, name='post_picture'),
     url(r'^explore/$', views.explore, name='explore'),
+    url(r'^follow_toggle/$', views.follow_toggle, name='follow_toggle'),
 ]

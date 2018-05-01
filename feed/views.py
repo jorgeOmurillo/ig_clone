@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -8,8 +9,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.views.generic.edit import CreateView
 
 from imagekit.models import ProcessedImageField
+from annoying.decorators import ajax_request
+
 from .models import UserID, PostIt, Comment, Like
 from .forms import UserNewForm, UserProfilePic, PostPicture
 
@@ -20,7 +25,7 @@ def home(request):
 
     users_followed = request.user.userid.following.all()
     posts = PostIt.objects.filter(
-            user__in=users_followed).order_by('-uploaded_on')
+            user_id__in=users_followed).order_by('-uploaded_on')
 
     return render(request, 'feed/home.html', {
         'posts': posts,
@@ -211,6 +216,7 @@ def explore(request):
 
     return render(request, 'feed/explore.html', context)
 
+@ajax_request
 @login_required
 def follow_toggle(request):
     user_profile = UserID.objects.get(user=request.user)

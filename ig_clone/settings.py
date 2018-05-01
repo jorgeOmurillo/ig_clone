@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'feed',
     'imagekit',
+    'annoying',
 ]
 
 MIDDLEWARE = [
