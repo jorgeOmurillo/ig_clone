@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+{% load static custom_tags %}
+
 {% block content %}
 
-<div class="row">
-  <div class="col-xs-12">
+<div class="follow__wrapper row">
+  <div class="follow__heading">
     {{ header }}
   </div>
   {% for profile in profiles %}

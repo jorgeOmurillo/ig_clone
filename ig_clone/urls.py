@@ -24,7 +24,7 @@ from django.contrib.auth import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^feed/', include('feed.urls')),       # Currently, the project only has 1 app (feed). All urls will be resolved to this.
-    url(r'^$', RedirectView.as_view(url='/feed/', permanent=True)),
+    url(r'^', RedirectView.as_view(url='/feed/', permanent=True)),
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
