@@ -25,10 +25,10 @@ def home(request):
 
     users_followed = request.user.userid.following.all()
     posts = PostIt.objects.filter(
-            user_id__in=users_followed).order_by('-uploaded_on')
+            user__in=users_followed).order_by('-uploaded_on')
 
     return render(request, 'feed/home.html', {
-        'posts': posts,
+        'posts': posts
     })
 
 def login_user(request):
@@ -36,7 +36,7 @@ def login_user(request):
 
     if request.method == 'POST':
         username = request.POST['username']
-        password = request.POST['password1']
+        password = request.POST['password']
         user = authenticate(username=username, password=password)
 
         if user is not None:
