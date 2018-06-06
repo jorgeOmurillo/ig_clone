@@ -12,6 +12,7 @@ function follow_user(success_cb, error_cb, type) {
   $.ajax({
     type: "POST",
     url: '/feed/follow_toggle/',
+    cache: false,
     data: {
       follow_profile_pk: follow_profile_pk,
       type: type
@@ -39,11 +40,9 @@ function update_unfollow_view(data) {
 
 
 $('.follow-toggle__container').on('click', '.follow-user', function() {
-    console.log('ANA');
   follow_user.call(this, update_follow_view, error_cb, 'follow');
 });
 
 $('.follow-toggle__container').on('click', '.unfollow-user', function() {
-    console.log('JORGE');
   follow_user.call(this, update_unfollow_view, error_cb, 'unfollow');
 });

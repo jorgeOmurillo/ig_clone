@@ -32,9 +32,9 @@
                                     {% is_following request.user.userid profile as following %}
                                     <button class="btn btn-primary {% if not following %}follow-user{% else %}unfollow-user{% endif %}" id="{{ profile.pk }}">
                                         {% if not following %}
-                                            Follow
+                                        Follow
                                         {% else %}
-                                            Following
+                                        Following
                                         {% endif %}
                                     </button>
                                 </div>
