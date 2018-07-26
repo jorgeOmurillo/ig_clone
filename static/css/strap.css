@@ -220,6 +220,36 @@ body {
         padding: 18px 20px;
         border: none; } }
 
+.follow {
+  &__wrapper {
+    background-color: #fff;
+  }
+  &__heading {
+    font-weight: 600;
+    font-size: 16px;
+    padding: 16px;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  &__card {
+    position: relative;
+    padding: 16px 20px;
+    .picture-circle--small {
+      margin-right: 13px;
+    }
+    a {
+      color: #363636;
+      font-weight: 600;
+    }
+    .follow-toggle__container {
+      position: absolute;
+      top: 21%;
+      right: 20px;
+      z-index: 1;
+      background: #fff;
+    }
+  }
+}
+
 .follow__wrapper {
   background-color: #fff; }
 .follow__heading {
@@ -271,6 +301,13 @@ body {
       width: 100%;
       border: none;
       outline: none; }
+
+.auth-form .btn {
+  width: 100%;
+  margin-bottom: 15px;
+  font-weight: bold; }
+.auth-form .help-text {
+  font-size: 12px; }
 
 .profile {
   max-width: 975px;

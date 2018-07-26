@@ -230,6 +230,7 @@ def follow_toggle(request):
                 follow_profile.followers.add(user_profile)
             elif request.POST.get('type') == 'unfollow':
                 user_profile.following.remove(follow_profile)
+                follow_profile.followers.remove(user_profile)
             user_profile.save()
             result = 1
         else:
