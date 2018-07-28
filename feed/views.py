@@ -220,8 +220,11 @@ def explore(request):
 @login_required
 def follow_toggle(request):
     user_profile = UserID.objects.get(user=request.user)
+    print(user_profile)
     follow_profile_pk = request.POST.get('follow_profile_pk')
+    print(follow_profile_pk)
     follow_profile = UserID.objects.get(pk=follow_profile_pk)
+    print(follow_profile)
 
     try:
         if user_profile != follow_profile:

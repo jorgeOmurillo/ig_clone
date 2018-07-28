@@ -3,60 +3,66 @@
 {% load static custom_tags %}
 
 {% block content %}
-<div class="container">
+<div class="profile">
+  <div class="profile__head">
     <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12 lead">
-                        <strong>{{ user.username }}</strong><br>
-                        <hr>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        {% if profile.pic_profile %}
-                        <img class="picture-profile" src="{{ profile.pic_profile.url }}">
-                        {% else %}
-                        <img class="picture-profile" src="{% static 'images/place_holder.jpg' %}">
-                        {% endif %}
-                    </div>
-                    <div class="row form-group">        
-                        <div class="col-md-6">
-                            {% if request.user == user %}
-                                <span class="text-muted">
-                                    <button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i><a href="{% url 'profile_settings' user.username %}"> Edit Profile</a></button><br>
-                                </span>
-                            {% elif request.user.is_authenticated %}
-                                <div class="follow-toggle__container">
-                                    {% is_following request.user.userid profile as following %}
-                                    <button class="btn btn-primary {% if not following %}follow-user{% else %}unfollow-user{% endif %}" id="{{ profile.pk }}">
-                                        {% if not following %}
-                                        Follow
-                                        {% else %}
-                                        Following
-                                        {% endif %}
-                                    </button>
-                                </div>
-                            {% endif %}
-                                    <div class="desktop-block">
-                                        <p>{{ profile.description }}</p>
-                                        <span class="text-muted"><a href="{% url 'post_picture' %}">Post Picture</a></span><br>
-                                    <ul class="stats">
-                                        <li class="stats__count"><span>{{ profile.postit_set.count }}</span> Posts</li>
-                                        <a href="{% url 'followers' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_followers }}</span> Followers</li></a>
-                                        <a href="{% url 'following' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_following }}</span> Following</li></a>
-                                    </ul>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="col-xs-4 left">
+        {% if profile.pic_profile %}
+          <img class="picture-circle" src="{{ profile.pic_profile.url }}">
+        {% else %}
+          <img class="picture-circle" src="{% static 'images/place_holder.jpg' %}">
+        {% endif %}
+      </div>
+      <div class="col-xs-8 right">
+        <div class="name-buttons">
+          <h1 class="username">{{ user.username }}</h1>
+          {% if request.user == user %}
+            <a class="edit-desktop" href="{% url 'profile_settings' user.username %}">
+              <button class="edit-profile">Edit Profile</button>
+            </a>
+          {% elif request.user.is_authenticated %}
+          <div class="follow-toggle__container">
+            {% is_following request.user.userid profile as following %}
+            <button class="btn btn-primary {% if not following %}follow-user{% else %}unfollow-user{% endif %}" id="{{ profile.pk }}">
+              {% if not following %}
+                Follow
+              {% else %}
+                Following
+              {% endif %}
+            </button>
+          </div>
+          {% endif %}
         </div>
+        {% if request.user == user %}
+          <a class="edit-mobile" href="{% url 'profile_settings' user.username %}">
+            <button class="edit-profile">Edit Profile</button>
+          </a>
+        {% endif %}
+        <div class="desktop-block">
+          <ul class="stats">
+              <li class="stats__count"><span>{{ profile.postit_set.count }}</span> Posts</li>
+              <a href="{% url 'followers' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_followers }}</span> Followers</li></a>
+              <a href="{% url 'following' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_following }}</span> Following</li></a>
+          </ul>
+          <div class="description">
+            <p>{% if profile.description %}{{ profile.description }}{% endif %}</p>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-block">
+        <div class="description">
+          <p>{% if profile.description %}{{ profile.description }}{% endif %}</p>
+        </div>
+        <ul class="stats">
+            <div class="col-xs-4"><li class="stats__count"><span>{{ profile.postit_set.count }}</span><br> posts</li></div>
+            <div class="col-xs-4"><a href="{% url 'followers' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_followers }}</span><br> followers</li></a></div>
+            <div class="col-xs-4"><a href="{% url 'following' username=profile.user.username %}"><li class="stats__count"><span>{{ profile.get_number_of_following }}</span><br> following</li></a></div>
+        </ul>
+      </div>
     </div>
-</div>
+  </div>
 
-<div class="container">
+  <div class="profile__body">
     <div class="row">
         {% for post in profile.postit_set.all reversed %}
         <div class="col-lg-4 cl-sm-6">
